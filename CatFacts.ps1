@@ -7,6 +7,6 @@ if ((Get-Random -Maximum 10000) -lt 1875) {
     Add-Type -AssemblyName System.Speech
     $SpeechSynth = New-Object System.Speech.Synthesis.SpeechSynthesizer
     $CatFact = Invoke-RestMethod  -Uri 'https://catfact.ninja/fact'
-    $SpeechSynth.Speak("Waddup here is what you need to impress clients in the next meeting")
+    $SpeechSynth.Speak("Did you know? ")
     $SpeechSynth.Speak($CatFact.fact)
 }    
