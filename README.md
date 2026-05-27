@@ -68,13 +68,19 @@ Full parameter list:
 
 ## Uninstall
 
-If you installed via clone:
+### One-liner (mirror of the install)
+
+```powershell
+iex (irm https://raw.githubusercontent.com/TX-RX/OfficePranks/main/Uninstall-CatFacts.ps1)
+```
+
+### From a clone
 
 ```powershell
 .\Uninstall-CatFacts.ps1
 ```
 
-If you used the one-liner (no clone), paste:
+### Fully manual (if both scripts are gone)
 
 ```powershell
 Unregister-ScheduledTask -TaskName 'OfficePranks-CatFacts' -Confirm:$false

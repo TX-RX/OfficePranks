@@ -30,9 +30,11 @@ param(
 $ErrorActionPreference = 'Stop'
 
 # 1. Locate (or fetch) the payload.
-$LocalClone = Join-Path $PSScriptRoot 'CatFacts.ps1'
+#    $PSScriptRoot is empty when this script is run via `iex (irm ...)`
+#    (no file on disk), which PowerShell 7's Join-Path rejects — guard it.
+$LocalClone = if ($PSScriptRoot) { Join-Path $PSScriptRoot 'CatFacts.ps1' } else { $null }
 
-if (Test-Path $LocalClone) {
+if ($LocalClone -and (Test-Path $LocalClone)) {
     $TargetScript = $LocalClone
     Write-Host "Using existing CatFacts.ps1 from clone: $TargetScript"
 } else {
