@@ -105,13 +105,15 @@ The uninstaller is safe to run on a machine that was never installed — it just
 
 ## Contributing
 
-Pull requests welcome for new pranks in the same spirit:
+Pull requests welcome for new pranks in the same spirit. The rules are summarized here and enforced by CI:
 
 - Harmless and reversible — your prank must come with a one-step uninstall.
 - No exfiltration. No data leaves the victim's machine except for benign public-API calls like catfact.ninja.
 - No privilege escalation. Anything that needs admin is out of scope.
 - No detection evasion beyond `-WindowStyle Hidden` on the scheduled action.
 - Include `Install-*.ps1` and `Uninstall-*.ps1` scripts for each new payload, and update the README.
+
+Full details and the local validator command in [CONTRIBUTING.md](CONTRIBUTING.md). Vulnerability reports go through [SECURITY.md](SECURITY.md), and project conduct is governed by [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Every PR runs the [Validate workflow](.github/workflows/validate.yml).
 
 ## License
 

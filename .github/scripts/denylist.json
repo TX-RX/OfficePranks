@@ -1,0 +1,40 @@
+{
+  "_comment": "Patterns the OfficePranks validator scans every .ps1 for. severity=fail blocks the PR; severity=warn is advisory. message is shown to contributors. See CONTRIBUTING.md for the rules these enforce.",
+
+  "denylist": [
+    { "pattern": "Set-MpPreference\\s+.*-Disable",                "severity": "fail", "message": "Disables Defender feature - banned by CONTRIBUTING.md rule 4." },
+    { "pattern": "DisableRealtimeMonitoring",                     "severity": "fail", "message": "Disables Defender real-time monitoring - banned." },
+    { "pattern": "Add-MpPreference\\s+.*Exclusion",               "severity": "fail", "message": "Adds Defender exclusion - banned (detection evasion)." },
+
+    { "pattern": "-EncodedCommand\\b",                            "severity": "fail", "message": "EncodedCommand obfuscation - banned by CONTRIBUTING.md rule 4." },
+    { "pattern": "\\[Convert\\]::FromBase64String",               "severity": "fail", "message": "Base64 payload reassembly - banned (obfuscation)." },
+    { "pattern": "-bxor\\s+\\d+",                                 "severity": "warn", "message": "XOR pattern - explain in PR description." },
+
+    { "pattern": "\\bVirtualAlloc(Ex)?\\b",                       "severity": "fail", "message": "Native alloc primitive - process-injection, banned." },
+    { "pattern": "\\bCreateRemoteThread\\b",                      "severity": "fail", "message": "Native remote-thread primitive - process-injection, banned." },
+    { "pattern": "\\bWriteProcessMemory\\b",                      "severity": "fail", "message": "Native cross-process write - process-injection, banned." },
+    { "pattern": "Invoke-M[i]mikatz|M[i]mikatz",                  "severity": "fail", "message": "Credential-dump tool reference - banned. (Regex uses [i] trick to dodge static AV scanners; matches the real name.)" },
+    { "pattern": "ReflectPEInjection",                            "severity": "fail", "message": "PowerSploit reflective PE injection - banned." },
+
+    { "pattern": "HK(LM|CU):\\\\.*\\\\Run\\b",                    "severity": "fail", "message": "Registry Run-key persistence - banned (use a Scheduled Task)." },
+    { "pattern": "\\bNew-Service\\b",                             "severity": "fail", "message": "Service install - banned (use a Scheduled Task)." },
+    { "pattern": "\\bsc\\.exe\\s+create\\b",                      "severity": "fail", "message": "sc.exe create - service persistence, banned." },
+    { "pattern": "WmiEventFilter|__EventFilter",                  "severity": "fail", "message": "WMI event subscription persistence - banned." },
+    { "pattern": "Startup\\\\.*\\.(lnk|url|bat|cmd|exe|ps1)",     "severity": "fail", "message": "Startup-folder persistence - banned." },
+
+    { "pattern": "ConvertFrom-SecureString",                      "severity": "warn", "message": "Reading SecureString - explain in PR if intentional." },
+    { "pattern": "\\bGet-Credential\\b",                          "severity": "fail", "message": "Prompting for credentials - banned (no exfil, rule 2)." },
+    { "pattern": "\\bAdd-Type\\b.*GetAsyncKeyState",              "severity": "fail", "message": "Keylogging primitive - banned." },
+    { "pattern": "Get-Clipboard",                                 "severity": "fail", "message": "Reading clipboard - banned by no-exfil rule." },
+    { "pattern": "Win32_NetworkAdapterConfiguration",             "severity": "warn", "message": "Network recon - explain in PR." },
+
+    { "pattern": "-Verb\\s+RunAs",                                "severity": "fail", "message": "Attempts UAC elevation - banned (rule 3)." },
+    { "pattern": "RUNLEVEL\\s*=\\s*Highest",                      "severity": "warn", "message": "Scheduled task at Highest run level - usually wrong; use Limited." },
+    { "pattern": "-RunLevel\\s+Highest",                          "severity": "fail", "message": "Scheduled task at Highest run level - banned (rule 3)." }
+  ],
+
+  "networkAllowlist": [
+    "catfact\\.ninja",
+    "raw\\.githubusercontent\\.com/TX-RX/"
+  ]
+}
